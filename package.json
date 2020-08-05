@@ -1,0 +1,20 @@
+{
+  "name": "download-files",
+  "version": "1.0.0",
+  "description": "Download automatic files",
+  "main": "index.js",
+  "author": "Jean Villarreal",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "dotenv": "^8.2.0",
+    "lodash": "^4.17.19",
+    "moment": "^2.27.0",
+    "nodemon": "^2.0.4",
+    "puppeteer-core": "^5.2.1",
+    "ramda": "^0.27.1"
+  }
+}
