@@ -1,36 +1,33 @@
-const R = require("ramda");
-const Promises = require("bluebird");
-const puppeteer = require("puppeteer-core");
-
 const { EOL } = require("os");
 
-const config = require("../config");
+const InitPage = require("./pages/init_page");
+
+const selectors = () => ({
+  url: "https://www.gnome-look.org",
+  firstSelector: "#panel-0 > ul > li:nth-child(22) > a > .cat-title",
+  secondSelector: "#explore-products > div.product-list",
+  thirdSelector: "#explore-products > div.product-list > div",
+});
 
 const startBrowser = async () => {
   try {
-    const browser = await puppeteer.launch({
-      executablePath: config.browser.path,
-    });
+    const browser = new InitPage();
+    await browser.launch();
 
-    const page = await browser.newPage();
+    const navigationPromise = browser.page.waitForNavigation();
 
-    const navigationPromise = page.waitForNavigation();
+    await browser.goPage(selectors().url);
 
-    await page.goto("https://www.gnome-look.org");
+    await browser.setSelector(selectors().firstSelector);
 
-    await page.setViewport({ width: 1920, height: 937 });
-
-    await page.waitForSelector(
-      "#panel-0 > ul > li:nth-child(22) > a > .cat-title"
-    );
-
-    await page.click("#panel-0 > ul > li:nth-child(22) > a > .cat-title");
+    await browser.click(selectors().firstSelector);
 
     await navigationPromise;
 
-    const filterLinks = await filterName(page);
+    await browser.setSelector(selectors().secondSelector);
 
-    await clickToRefs(page, filterLinks);
+    const data = await browser.iterateContext(selectors().thirdSelector);
+    console.log(`data ${EOL}`, data);
 
     await browser.close();
   } catch (error) {
