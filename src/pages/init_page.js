@@ -1,8 +1,4 @@
-const R = require("ramda");
-const Promises = require("bluebird");
 const puppeteer = require("puppeteer-core");
-
-const { EOL } = require("os");
 
 const config = require("../../config");
 
@@ -27,26 +23,55 @@ class InitPage {
     }
   }
 
-  async goPage(url) {
-    return await this.page.goto(url);
-  }
+  goPage = async (url) => await this.page.goto(url);
 
-  async setSelector(selector) {
-    return await this.page.waitForSelector(selector);
-  }
+  setSelector = async (selector) => await this.page.waitForSelector(selector);
 
-  async click(selector) {
-    return await this.page.click(selector);
-  }
+  click = async (selector) => await this.page.click(selector);
 
-  waitForNavigation() {
-    return this.page.waitForNavigation();
-  }
+  waitForNavigation = () => this.page.waitForNavigation();
 
-  async iterateContext(selector) {
-    return this.page.$$eval(selector, (nodes) =>
-      nodes.map((n) => console.log(n))
-    );
+  async iterateContext(selector1) {
+    return this.page.$$eval(selector1, (nodes, obj) => {
+      return nodes.map((n, i) => {
+        let matchers = ["HD", "4K", "5K"],
+          compose = (...fn) => (x) => fn.reduceRight((y, f) => f(y), x),
+          getObj = (a) => ({
+            href: a.href,
+            name: String(a.textContent),
+          }),
+          toTrim = (o) =>
+            Object.assign(o, {
+              name: String(o.name).replace(/\s/g, ""),
+            }),
+          toUpperCase = (o) =>
+            Object.assign(o, { name: String(o.name).toUpperCase() }),
+          matchNames = (o) =>
+            Object.assign(o, {
+              href:
+                o.name.includes(matchers[0]) ||
+                o.name.includes(matchers[1]) ||
+                o.name.includes(matchers[2])
+                  ? o.href
+                  : undefined,
+              name:
+                o.name.includes(matchers[0]) ||
+                o.name.includes(matchers[1]) ||
+                o.name.includes(matchers[2])
+                  ? o.name
+                  : undefined,
+              selector:
+                o.name.includes(matchers[0]) ||
+                o.name.includes(matchers[1]) ||
+                o.name.includes(matchers[2])
+                  ? `.product-list > .explore-product:nth-child(${i}) > .explore-product-details > h3 > a`
+                  : undefined,
+            });
+
+        const data = compose(matchNames, toUpperCase, toTrim, getObj)(n);
+        return { ...data };
+      });
+    });
   }
 
   async close() {

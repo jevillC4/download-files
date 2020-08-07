@@ -1,3 +1,4 @@
-const init = require("./src/browser");
+const Browser = require("./src/browser");
 
-init();
+let instance = new Browser();
+instance.startBrowser();
