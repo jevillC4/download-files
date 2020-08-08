@@ -11,7 +11,7 @@ class InitPage {
   async launch() {
     try {
       const browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         executablePath: config.browser.path,
       });
 
@@ -29,7 +29,7 @@ class InitPage {
 
   click = async (selector) => await this.page.click(selector);
 
-  waitForNavigation = () => this.page.waitForNavigation();
+  waitForNavigation = () => this.page.waitForFunction({}, { timeout: "40" });
 
   async iterateContext(selector1) {
     return this.page.$$eval(selector1, (nodes, obj) => {
