@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "download-files",
+      "script": "index.js",
+      "cwd": "D:\\Devs\\apps-js\\github\\download-files",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
