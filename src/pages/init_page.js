@@ -1,5 +1,7 @@
 const puppeteer = require("puppeteer-core");
 
+const { EOL } = require("os");
+
 const config = require("../../config");
 
 class InitPage {
@@ -17,22 +19,42 @@ class InitPage {
 
       this.browser = browser;
       this.page = await this.browser.newPage();
+
+      this.page.setRequestInterception(true);
+      this.page.on("request", async (source) => {
+        try {
+          let type = source.resourceType();
+          if (type == "image") {
+            await source.abort();
+          } else {
+            await source.continue();
+          }
+        } catch (error) {
+          console.log(`error ${EOL}`, error);
+        }
+      });
+
       this.page.setViewport({ width: 1920, height: 937 });
     } catch (error) {
+      console.log(`error ${EOL}`, error);
       return null;
     }
   }
 
-  goPage = async (url) => await this.page.goto(url);
+  async goPage(url) {
+    await this.page.goto(url);
+  }
 
-  setSelector = async (selector) => await this.page.waitForSelector(selector);
+  async waitForSelector(selector) {
+    await this.page.waitForSelector(selector);
+  }
 
-  click = async (selector) => await this.page.click(selector);
+  async click(selector) {
+    await this.page.click(selector);
+  }
 
-  waitForNavigation = () => this.page.waitForFunction({}, { timeout: "40" });
-
-  async iterateContext(selector1) {
-    return this.page.$$eval(selector1, (nodes, obj) => {
+  async iterateContext(selector) {
+    return await this.page.$$eval(selector, (nodes) => {
       return nodes.map((n, i) => {
         let matchers = ["HD", "4K", "5K"],
           compose = (...fn) => (x) => fn.reduceRight((y, f) => f(y), x),
