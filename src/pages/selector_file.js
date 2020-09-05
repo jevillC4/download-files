@@ -128,7 +128,11 @@ class SelectorFile {
   async saveFile(url, name) {
     return new Promises((resolve, reject) => {
       let dirFile = path.normalize(path.join(DIR_DOWNLOAD, name));
+
+      fs.access(dirFile, fs.constants.F_OK, (err) => resolve());
+
       let file = fs.createWriteStream(`${dirFile}`);
+
       request({
         uri: url,
         headers: {
