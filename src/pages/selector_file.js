@@ -51,7 +51,7 @@ class SelectorFile {
         const splitName = (n) => String(n).split(".")[0];
 
         const evaluateNode = (n) =>
-          n >= 8
+          n >= 10
             ? {
                 href: "https://www.gnome-look.org",
                 "data-file_id": node
