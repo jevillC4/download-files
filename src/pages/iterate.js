@@ -27,17 +27,17 @@ class Iterator {
 
     try {
       let instanceSelector = new SelectorFile(this.page);
-      await this.page.waitFor(50);
+      await this.page.waitForTimeout(50);
       await this.page.goto(value.href);
 
-      await this.page.waitFor(50);
+      await this.page.waitForTimeout(50);
       await instanceSelector.handler();
 
-      await this.page.waitFor(50);
+      await this.page.waitForTimeout(50);
 
       await this.page.goto(url);
 
-      await this.page.waitFor(50);
+      await this.page.waitForTimeout(50);
     } catch (error) {
       console.log(`error ${EOL}`, error);
     } finally {

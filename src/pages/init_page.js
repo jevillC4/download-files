@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer-core");
+const puppeteer = require("puppeteer");
 
 const { EOL } = require("os");
 
@@ -14,7 +14,7 @@ class InitPage {
     try {
       const browser = await puppeteer.launch({
         // headless: false,
-        executablePath: config.browser.path,
+        // executablePath: config.browser.path,
       });
 
       this.browser = browser;

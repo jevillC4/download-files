@@ -156,7 +156,7 @@ class SelectorFile {
           resolve();
         })
         .on("error", (error) => {
-          reject(error);
+          resolve();
         });
     });
   }
