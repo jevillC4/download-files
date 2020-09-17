@@ -156,8 +156,9 @@ class SelectorFile {
             .on("error", (error) => {
               resolve();
             });
+        } else {
+          resolve();
         }
-        resolve();
       });
 
       let file = fs.createWriteStream(`${dirFile}`);
