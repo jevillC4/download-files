@@ -131,6 +131,7 @@ class SelectorFile {
 
       fs.access(dirFile, fs.constants.F_OK, (err) => {
         if (err) {
+          let file = fs.createWriteStream(`${dirFile}`);
           request({
             uri: url,
             headers: {
@@ -160,8 +161,6 @@ class SelectorFile {
           resolve();
         }
       });
-
-      let file = fs.createWriteStream(`${dirFile}`);
     });
   }
 }
