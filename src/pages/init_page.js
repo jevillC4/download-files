@@ -13,8 +13,7 @@ class InitPage {
   async launch() {
     try {
       const browser = await puppeteer.launch({
-        headless: false,
-        // executablePath: config.browser.path,
+        // headless: false,
       });
 
       this.browser = browser;
