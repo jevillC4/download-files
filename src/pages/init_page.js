@@ -13,7 +13,7 @@ class InitPage {
   async launch() {
     try {
       const browser = await puppeteer.launch({
-        // headless: false,
+        headless: false,
         // executablePath: config.browser.path,
       });
 
@@ -42,6 +42,7 @@ class InitPage {
   }
 
   async goPage(url) {
+    await this.page.setDefaultNavigationTimeout(0);
     await this.page.goto(url);
   }
 
