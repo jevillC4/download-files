@@ -21,13 +21,14 @@ class InitPage {
       this.page = await this.browser.newPage();
 
       this.page.setRequestInterception(true);
-      this.page.on("request", async (source) => {
+      this.page.on("request", async (request) => {
         try {
-          let type = source.resourceType();
-          if (type == "image") {
-            await source.abort();
+          if (
+            ["image", "stylesheet", "font"].includes(request.resourceType())
+          ) {
+            request.abort();
           } else {
-            await source.continue();
+            request.continue();
           }
         } catch (error) {
           console.log(`error ${EOL}`, error);

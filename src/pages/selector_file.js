@@ -129,35 +129,38 @@ class SelectorFile {
     return new Promises((resolve, reject) => {
       let dirFile = path.normalize(path.join(DIR_DOWNLOAD, name));
 
-      fs.access(dirFile, fs.constants.F_OK, (err) => resolve());
+      fs.access(dirFile, fs.constants.F_OK, (err) => {
+        if (err) {
+          request({
+            uri: url,
+            headers: {
+              Connection: "keep-alive",
+              "Content-Length": 0,
+              "Cache-Control": "max-age=0",
+              "Upgrade-Insecure-Requests": 1,
+              Origin: "https://www.gnome-look.org",
+              "Content-Type": "application/x-www-form-urlencoded",
+              "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
+              Accept:
+                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+              "Accept-Encoding": "gzip, deflate, br",
+              "Accept-Language": "en-US,en;q=0.9,es;q=0.8",
+            },
+          })
+            .pipe(file)
+            .on("finish", () => {
+              // console.log(`downloaded file!`);
+              resolve();
+            })
+            .on("error", (error) => {
+              resolve();
+            });
+        }
+        resolve();
+      });
 
       let file = fs.createWriteStream(`${dirFile}`);
-
-      request({
-        uri: url,
-        headers: {
-          Connection: "keep-alive",
-          "Content-Length": 0,
-          "Cache-Control": "max-age=0",
-          "Upgrade-Insecure-Requests": 1,
-          Origin: "https://www.gnome-look.org",
-          "Content-Type": "application/x-www-form-urlencoded",
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
-          Accept:
-            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-          "Accept-Encoding": "gzip, deflate, br",
-          "Accept-Language": "en-US,en;q=0.9,es;q=0.8",
-        },
-      })
-        .pipe(file)
-        .on("finish", () => {
-          // console.log(`downloaded file!`);
-          resolve();
-        })
-        .on("error", (error) => {
-          resolve();
-        });
     });
   }
 }
