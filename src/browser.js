@@ -20,7 +20,7 @@ const selectors = () => ({
   pages: 1,
 });
 
-const PAGE_COUNTER = { counter: 1 };
+const PAGE_COUNTER = { counter: 49 };
 
 class Browser {
   constructor() {
