@@ -4,3 +4,9 @@
 ## I developed this script, for practice and because I like to collect high resolution images  ^_^.
 
 # _*NodeJs.*_
+
+### Run
+Node version 14.x.x
+```
+node index.js
+```
