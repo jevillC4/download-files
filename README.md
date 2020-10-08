@@ -4,7 +4,7 @@
 
 ## I developed this script, for practice and because I like to collect high resolution images ^\_^.
 
-# *NodeJs.*
+# NodeJs.
 
 ### configs
 
