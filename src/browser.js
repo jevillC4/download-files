@@ -1,6 +1,7 @@
 const _ = require("lodash");
 const { EOL } = require("os");
 
+const config = require("../config");
 const helpers = require("../helpers");
 const Iterator = require("./pages/iterate");
 const InitPage = require("./pages/init_page");
@@ -20,7 +21,7 @@ const selectors = () => ({
   pages: 1,
 });
 
-const PAGE_COUNTER = { counter: 49 };
+const PAGE_COUNTER = { counter: config.num_page };
 
 class Browser {
   constructor() {

@@ -4,6 +4,8 @@ const { EOL } = require("os");
 
 const config = require("../../config");
 
+const propsF = config.fast ? ["image", "stylesheet", "font"] : ["image"];
+
 class InitPage {
   constructor() {
     this.page = undefined;
@@ -12,9 +14,7 @@ class InitPage {
 
   async launch() {
     try {
-      const browser = await puppeteer.launch({
-        // headless: false,
-      });
+      const browser = await puppeteer.launch({ headless: config.see_broser });
 
       this.browser = browser;
       this.page = await this.browser.newPage();
@@ -22,9 +22,7 @@ class InitPage {
       this.page.setRequestInterception(true);
       this.page.on("request", async (request) => {
         try {
-          if (
-            ["image", "stylesheet", "font"].includes(request.resourceType())
-          ) {
+          if (propsF.includes(request.resourceType())) {
             request.abort();
           } else {
             request.continue();
