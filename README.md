@@ -10,7 +10,7 @@ I developed this script, for practice and because I like to collect high resolut
 
 set the path where images are saved in the following file
 
-**legend**
+**legend:**
 1 = YES | 0 = NO
 
 ./
