@@ -6,7 +6,7 @@
   "author": "Jean Villarreal",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon"
+    "start": "node index.js"
   },
   "dependencies": {
     "axios": "^0.20.0",

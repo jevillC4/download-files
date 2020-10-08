@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-console.log("process.env.LOAD_FAST", process.env.LOAD_FAST);
 module.exports = {
   dir: {
     download: process.env.DIR,

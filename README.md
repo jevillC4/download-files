@@ -45,5 +45,5 @@ line number 54
 Node version 14.x.x
 
 ```
-node index.js
+yarn start || npm start
 ```
