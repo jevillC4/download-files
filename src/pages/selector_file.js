@@ -51,7 +51,7 @@ class SelectorFile {
         const splitName = (n) => String(n).split(".")[0];
 
         const evaluateNode = (n) =>
-          n >= 1 // size image in MG default 10 Mb
+          n >= 10 // size image in MG default 10 Mb
             ? {
                 href: "https://www.gnome-look.org",
                 "data-file_id": node
