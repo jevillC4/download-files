@@ -36,7 +36,7 @@ line number 54
 
 ```
 |53|
-|54| n >= 10 // size image in MG default 10 Mb
+|54| n >= 10 // size image in Mb, default 10 Mb
 |55|
 ```
 
